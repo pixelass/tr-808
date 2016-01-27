@@ -1,0 +1,18 @@
+{
+  "name": "tr-808",
+  "version": "1.0.0",
+  "description": "extracted from codepen http://codepen.io/pixelass/pen/adyLPR by pixelass",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pixelass",
+  "license": "ISC",
+  "dependencies": {
+    "classnames": "^2.2.3",
+    "inline-style-prefixer": "^0.6.7",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "tone": "^0.6.1"
+  }
+}
