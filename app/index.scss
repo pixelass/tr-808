@@ -1,0 +1,1401 @@
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans:400);
+
+/// Stroke font-character
+/// @param  {Integer} $stroke - Stroke width
+/// @param  {Color}   $color  - Stroke color
+/// @return {List}            - text-shadow list
+
+@function stroke($stroke, $color) {
+  $shadow: ();
+  $from: $stroke * -1;
+
+  @for $i from $from through $stroke {
+    @for $j from $from through $stroke {
+      $shadow: append($shadow, ($i * 1px) ($j * 1px) 0 $color, comma);
+    }
+  }
+
+  @return $shadow;
+}
+
+/// Stroke font-character
+/// @param  {Integer} $stroke - Stroke width
+/// @param  {Color}   $color  - Stroke color
+/// @return {Style}           - text-shadow
+
+@mixin stroke($stroke, $color) {
+  text-shadow: stroke($stroke, $color);
+}
+
+@mixin Poti($color: false) {
+  $className: ".Poti";
+
+  @if $color {
+    $className: $className + "._colored";
+    $className: $className + ".#{$color}";
+  }
+
+  $className: join($className, ",");
+
+  #{$className} {
+    @content;
+  }
+}
+
+@mixin Step($color: false) {
+  $className: ".Step";
+
+  @if $color {
+    $className: $className + "._colored";
+    $className: $className + ".#{$color}";
+  }
+
+  $className: join($className, ",");
+
+  #{$className} {
+    @content;
+  }
+}
+
+@mixin Instrument {
+  $className: ".Instrument";
+
+  #{$className} {
+    @content;
+  }
+}
+
+@mixin Button {
+  $className: ".Button";
+
+  #{$className} {
+    @content;
+  }
+}
+
+@mixin Scale {
+  $className: ".Scale";
+
+  #{$className} {
+    @content;
+  }
+}
+
+@mixin style($namespace) {
+  .#{$namespace} {
+
+    .ScaleToggler {
+      margin-top: 1px;
+
+      .Toggle .labels div {
+        &:before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 100%;
+          margin-left: -3px;
+          height: 1px;
+          width: 4px;
+          background: color(grey);
+        }
+      }
+    }
+
+    @include Scale {
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        height: 1px;
+        width: 7px;
+        margin-right: -4px;
+        background: color(grey);
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        height: 1px;
+        width: 8px;
+        background: color(grey);
+        margin-right: 3px;
+        transform-origin: 100% 50%;
+      }
+
+      &:nth-child(1):after {
+        transform: rotate(-65deg);
+        width: 15px;
+      }
+
+      &:nth-child(2):after {
+        transform: rotate(-35deg);
+        width: 9px;
+      }
+
+      &:nth-child(3):after {
+        transform: rotate(25deg);
+        width: 8px;
+      }
+
+      &:nth-child(4):after {
+        transform: rotate(59deg);
+        width: 13px;
+      }
+
+      .ScaleMeasure {
+        position: relative;
+        border-radius: 2px;
+
+        //margin: 2px 6px;
+        height: 12px;
+        line-height: 10px;
+        color: color(black);
+
+        &:before {
+          content: '';
+          background: color(grey);
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 6px;
+          right: 6px;
+          border-radius: 2px;
+          border-top-right-radius: inherit;
+          border-bottom-right-radius: inherit;
+        }
+      }
+
+      &:nth-child(1), &:nth-child(2) {
+        .ScaleMeasure:last-child {
+          &:after {
+            content: '';
+            background: mix(color(black), color(background), 15%);
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 2;
+            width: 6px;
+          }
+        }
+      }
+
+      .note {
+        position: relative;
+        z-index: 1;
+      }
+
+      .note-bow {}
+    }
+
+
+    @include Button {
+      background: color(white);
+      color: color(black);
+      border-radius: 2px;
+      background-image: linear-gradient(to top, rgba(white, 0.1) 2%, rgba(black, 0.1) 20%, rgba(white, 0.2) 70%);
+      box-shadow: 0 4px 0 0 mix(black, color(white), 40%), 0 3px 0 3px color(black), 0 5px 0 3px color(black), 0 0 0 2px color(white) inset, 0 -2px 0 3px mix(black, color(white), 40%) inset;
+
+      * {
+        pointer-events: none;
+      }
+
+      > div {
+        margin-top: -6px;
+      }
+
+      &:active {
+        transform: translateY(4px);
+        background-image: linear-gradient(to top, rgba(black, 0.05) 5%, rgba(white, 0.05) 20%, rgba(black, 0.05) 80%);
+        box-shadow: 0 1px 0 0 mix(black, color(white), 40%), 0 0 0 3px color(black), 0 1px 0 3px color(black), 0 0 0 2px color(white) inset, 0 -2px 0 3px mix(black, color(white), 40%) inset;
+      }
+
+      &.onOffButton {
+        position: absolute;
+        top: 28px;
+        left: 72px;
+        height: 16px !important;
+        width: 25px !important;
+        min-width: 20px !important;
+        background-color: color(black);
+        background-image: linear-gradient(to top, rgba(white, 0.05) 2%, rgba(black, 0.1) 20%, rgba(white, 0.05) 70%);
+        box-shadow: 0 3px 0 0 mix(black, color(dark-grey), 40%), 0 2px 0 2px color(black), 0 3px 0 2px color(black);
+
+        &:active {
+          transform: translateY(3px);
+          background-image: linear-gradient(to top, rgba(black, 0.05) 5%, rgba(white, 0.05) 20%, rgba(black, 0.05) 80%);
+          box-shadow: 0 1px 0 0 mix(black, color(dark-grey), 40%), 0 0 0 2px color(black), 0 -1px 0 1px color(black);
+        }
+      }
+    }
+
+
+    @include Instrument {
+      box-shadow: 1px 0 0 color(grey);
+
+      &:last-child {
+        box-shadow: none;
+      }
+
+      .InstrumentName {
+        background: color(white);
+        color: color(black);
+        margin: 2px 2px 2px 3px;
+        padding: 4px 3px;
+        text-align: center;
+        line-height: 1;
+        border-radius: 3px;
+        white-space: nowrap;
+      }
+    }
+
+
+    @include Step {
+      background-image: linear-gradient(to bottom, rgba(black, 0.1) 2px, rgba(black, 0.3) 12px, rgba(black, 0.1) 15px, rgba(white, 0.2) 15px, rgba(black, 0.1) 20px, rgba(white, 0.2) calc(100% - 5px), rgba(white, 0.1) calc(100% - 5px), rgba(black, 0.2) calc(100% - 4px), rgba(black, 0.3));
+      border-radius: 2px;
+      box-shadow: 0 1px 0 3px color(black);
+      cursor: pointer;
+
+      &:active {
+        background-image: linear-gradient(to bottom, rgba(black, 0.4) 2px, rgba(black, 0.2) 2px, rgba(black, 0.3) 14px, rgba(black, 0.1) 17px, rgba(white, 0.2) 17px, rgba(black, 0.1) 28px, rgba(white, 0.2) calc(100% - 2px), rgba(white, 0.1) calc(100% - 2px), rgba(black, 0.2) calc(100% - 1px), rgba(black, 0.3));
+
+        .StepLight {
+          margin-top: 2px;
+        }
+
+        &.selected {
+          .glow {
+            box-shadow: 0 0 3px 2px orange;
+          }
+        }
+      }
+
+      &.selected {
+        .glow {
+          box-shadow: 0 0 2px 1px red, 0 0 3px 2px orange, 0 0 4px 1px rgba(black, 0.8);
+        }
+      }
+
+      &.active {
+        .glow {
+          box-shadow: 0 0 3px 2px orange, 0 0 3px 3px red, 0 0 2px 2px rgba(black, 0.7);
+        }
+      }
+
+      .StepLight {
+        box-shadow: 0 1px 0 1px color(black);
+      }
+
+      .count {
+        color: color(white);
+      }
+
+      .rhythm {
+        color: color(black);
+        background: color(grey);
+      }
+
+      &:last-child {
+        .rhythm {
+          &:before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            height: 6px;
+            width: 6px;
+            border-radius: 100%;
+            box-shadow: 2px 2px 0 color(grey);
+          }
+        }
+      }
+
+      &:first-child {
+        .rhythm {
+          &:before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            height: 6px;
+            width: 6px;
+            border-radius: 100%;
+            box-shadow: -2px 2px 0 color(grey);
+          }
+        }
+      }
+    }
+
+
+    @include Step(red) {
+      color: color(red);
+    }
+
+
+    @include Step(orange) {
+      color: color(orange);
+    }
+
+
+    @include Step(yellow) {
+      color: color(yellow);
+    }
+
+
+    @include Step(white) {
+      color: color(white);
+    }
+
+
+    @include Poti {
+      .PotiIndicator {
+        &:before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 2px;
+          width: 2px;
+          background: color(grey);
+          margin-bottom: -1px;
+          border-radius: 100%;
+        }
+
+        &._numbered {
+          &:before {
+            content: normal;
+          }
+        }
+      }
+
+      &.measures {
+        > label {
+          margin-top: -1em;
+          padding-bottom: 2em;
+
+          div:last-child {
+            font-size: 1.3em;
+          }
+        }
+
+        .PotiIndicator {
+          &:nth-child(1) {
+            .label {
+              padding-right: 3em;
+            }
+          }
+        }
+      }
+
+      &.pattern-write {
+        vertical-align: top;
+
+        > label {
+          padding-bottom: 1.2em;
+
+          > div:first-child {
+            color: color(white);
+            box-shadow: 0 0 0 1px;
+            padding: 1px;
+            line-height: 1;
+            position: relative;
+
+            &:before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              right: 100%;
+              height: 20em;
+              width: 4em;
+              border: 1px solid;
+              border-right: 0;
+              border-bottom: 0;
+            }
+          }
+        }
+
+        .PotiIndicator {
+          &:nth-child(1) {
+            .label {
+              white-space: nowrap;
+              margin-left: 4.3em;
+              margin-top: -5em;
+              box-shadow: 0 0 0 1px;
+              padding: 1px;
+              line-height: 1;
+              color: color(white);
+
+              &:before {
+                content: '';
+                position: absolute;
+                bottom: 50%;
+                right: 100%;
+                height: 8em;
+                width: 2em;
+                border: 1px solid;
+                border-right: 0;
+              }
+            }
+          }
+
+          &:nth-child(2) {
+            .label {
+              margin-left: 1em;
+              margin-top: 1em;
+              color: color(white);
+              text-transform: initial !important;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: 100%;
+                width: 1px;
+                height: 2.5em;
+                background: currentColor;
+              }
+
+              &:after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: 100%;
+                width: 2.8em;
+                height: 1px;
+                margin-bottom: 2.5em;
+                background: currentColor;
+              }
+            }
+          }
+
+          &:nth-child(3) {
+            .label {
+              margin-left: 1em;
+              margin-top: 1em;
+              color: color(white);
+              text-transform: initial !important;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: 100%;
+                width: 1px;
+                height: .5em;
+                background: currentColor;
+              }
+
+              &:after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: 100%;
+                width: 1px;
+                height: 0.5em;
+                margin-bottom: 0.5em;
+                margin-left: -1em;
+                background: currentColor;
+              }
+            }
+          }
+
+          &:nth-child(4) {
+            .label {
+              margin-left: -3em;
+              margin-top: 1.5em;
+              box-shadow: 0 0 0 1px;
+              padding: 1px;
+              line-height: 1;
+
+              &:before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                right: 100%;
+                height: 0.7em;
+                width: 2.6em;
+                border: 1px solid;
+                border-right: 0;
+                border-bottom: 0;
+              }
+            }
+          }
+
+          &:nth-child(5) {
+            .label {
+              margin-left: -1em;
+              margin-top: 0.5em;
+              color: color(orange);
+
+              &:after {
+                content: '';
+                position: absolute;
+                left: 100%;
+                bottom: 50%;
+                width: 4em;
+                height: 1px;
+                background: currentColor;
+              }
+            }
+          }
+
+          &:nth-child(6) {
+            .label {
+              margin-top: 1.5em;
+              margin-left: -0.5em;
+              color: color(orange);
+
+              &:before {
+                content: '';
+                position: absolute;
+                right: 50%;
+                top: 100%;
+                width: 6em;
+                height: 11.6em;
+                border-right: 1px solid;
+                border-bottom: 1px solid;
+              }
+
+              &:after {
+                content: '';
+                position: absolute;
+                left: 100%;
+                bottom: 50%;
+                width: 2.2em;
+                height: 1px;
+                background: currentColor;
+              }
+            }
+          }
+        }
+      }
+
+      &.instrument-select {
+        margin: 0 0 20px;
+
+        > label {
+          div:first-child {
+            color: color(white);
+            position: relative;
+
+            &:before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              right: 100%;
+              width: 10em;
+              height: 1px;
+              background: currentColor;
+            }
+          }
+
+          div:last-child {
+            color: color(orange);
+            box-shadow: 0 0 0 1px color(orange);
+            padding: 2px 10px;
+            line-height: 1;
+            margin: 2px auto;
+            position: relative;
+
+            &:before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              right: 100%;
+              height: 5.5em;
+              width: 3em;
+              border: 1px solid;
+              border-right: 0;
+              border-bottom: 0;
+            }
+          }
+        }
+
+        .PotiIndicator {
+          color: color(black);
+
+          &:before {
+            background: color(orange);
+          }
+
+          > .label {
+            background: color(white);
+            border-radius: 2px;
+            padding: 1px;
+            line-height: 1;
+            font-weight: bold;
+          }
+
+          > .number {
+            color: color(orange);
+            font-weight: bold;
+          }
+        }
+      }
+
+      &._ring {
+        margin-top: 40px;
+
+        .\@decorator:before {
+          content: '';
+          height: 50%;
+          width: 50%;
+          padding: 20px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 100%;
+          box-shadow: 0 0 0 12px color(grey);
+          pointer-events: none;
+        }
+
+        .PotiIndicator {
+          > .label {
+            color: color(black);
+            font-weight: bolder;
+            margin-top: 4px;
+          }
+        }
+      }
+
+      .PotiKnob {
+        z-index: 2;
+        box-shadow: 0 0 2px 1px rgba(color(white), 0.1) inset, 0 0 0 2px color(black) inset;
+        margin-top: -5px;
+
+        &:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          height: 100%;
+          width: 110%;
+          padding: 4px 0;
+          border-radius: 100%;
+          box-shadow: 0 2px 0 1px color(black), 0 2px 0 6px color(dark-grey), 0 2px 0 7px color(black);
+          background-color: color(dark-grey);
+          background-image: linear-gradient(to top, rgba(black, 0.5) 0, transparent 10px), linear-gradient(to right, transparent 20%, rgba(white, 0.2) 40%, transparent 70%);
+        }
+
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          border-radius: 100%;
+          background-color: color(dark-grey);
+          background-image: radial-gradient(closest-corner, rgba(color(black), 0.2) 10%, rgba(color(black), 0.1) 60%, rgba(color(white), 0.1) 80%);
+          box-shadow: inherit;
+        }
+      }
+
+      .PotiMarker {
+        z-index: 2;
+        color: color(red);
+        font-size: 6px;
+        will-change: transform;
+      }
+
+      &._colored {
+        .PotiIndicator {
+          &:before {
+            background: color(grey);
+            height: 10px;
+            margin-bottom: 7px;
+            border-radius: 0;
+          }
+        }
+
+        .PotiKnob {
+          z-index: 2;
+          box-shadow: 0 0 0 2px color(dark-grey) inset;
+          margin-top: -5px;
+
+          &:before {
+            height: 120%;
+            width: 110%;
+            padding: 1px;
+            box-shadow: 0 1px 0 1px color(black);
+            top: 0;
+          }
+
+          &:after {
+            background-color: inherit;
+          }
+        }
+
+        .PotiMarker {
+          z-index: 2;
+          color: color(black);
+          font-size: 6px;
+        }
+      }
+    }
+
+
+    @include Poti(orange) {
+      .PotiKnob {
+        color: color(orange);
+      }
+    }
+
+
+    @include Poti(white) {
+      .PotiKnob {
+        color: color(white);
+      }
+    }
+
+
+    &.Eight_0_Eight {
+      user-select: none;
+      position: relative;
+      margin: auto;
+      padding: 10px 30px;
+      background-color: color(background);
+      background-image: linear-gradient(to right top, rgba(white, 0.05) 1px, rgba(white, 0) 100px), linear-gradient(to right bottom, rgba(white, 0.2) 1px, rgba(white, 0) 300px), linear-gradient(to left top, rgba(black, 0.5) 1px, rgba(black, 0) 100px), linear-gradient(to bottom, rgba(black, 0.5) 1px, rgba(white, 0.2) 4px, rgba(black, 0.1) 8px, rgba(black, 0.3) 30%, rgba(black, 0.1) 50%, rgba(black, 0.1) calc(100% - 15px), rgba(white, 0.2) calc(100% - 3px), rgba(black, 0.3) calc(100% - 1px));
+      box-shadow: 0 20px 0 mix(color(background), color(black), 30%), 0 30px 0 mix(color(dark-grey), color(black), 20%), 0 -10px 0 color(dark-grey);
+      color: color(grey);
+
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        z-index: 2;
+        top: -5px;
+        bottom: 5px;
+        width: 35px;
+        background-color: color(black);
+        background-image: linear-gradient(to bottom, rgba(black, 0.5) 1px, rgba(white, 0.2) 4px, rgba(black, 0.1) 8px, rgba(black, 0.3) 30%, rgba(black, 0.1) 50%, rgba(black, 0.1) calc(100% - 15px), rgba(white, 0.2) calc(100% - 4px), rgba(black, 0.3) calc(100% - 1px));
+        box-shadow: 0 30px 0 mix(color(dark-grey), color(black), 30%), 0 40px 0 color(black), 0 -10px 0 color(black);
+      }
+
+      &:before {
+        left: -30px;
+        border-radius: 3px 2px 2px 3px;
+      }
+
+      &:after {
+        right: -30px;
+        border-radius: 2px 3px 3px 2px;
+      }
+    }
+
+    .title-area {
+      .primary {
+        color: color(orange);
+
+        @include stroke(2, color(background));
+      }
+
+      .underline {
+        color: color(orange);
+      }
+
+      .secondary {
+        color: color(grey);
+        flex: 0 0 100%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 0.5em;
+      }
+    }
+
+    .top {
+      border: {
+        top: 5px solid color(grey);
+        bottom: 5px solid color(grey);
+      };
+      padding: 5px 0;
+      margin: 10px;
+
+      > .left,
+      > .right {
+        box-shadow: 2px 0 0 color(grey);
+        margin-right: 5px;
+      }
+    }
+
+    .bottom {
+      padding: 5px 0;
+      margin: 10px;
+    }
+
+    .LoadingBuffers {
+      position: absolute;
+      z-index: 999;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      padding: 2em;
+      max-width: 400px;
+      background: color(white);
+      color: color(black);
+      box-shadow: 0 2px 4px 3px rgba(black, 0.4);
+      border-radius: 2px;
+      font-family: 'Josefin Sans';
+
+      > div:last-child {
+        flex: 1;
+        padding-left: 20px;
+      }
+    }
+
+    .Loader {
+      height: 50px;
+      width: 50px;
+      position: relative;
+
+      div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 10px;
+        width: 10px;
+        margin: -5px;
+        border-radius: 100%;
+        animation: Loader 2s ease-out infinite;
+
+        &:nth-child(1) {
+          background: color(red);
+        }
+
+        &:nth-child(2) {
+          background: color(orange);
+          animation-delay: -0.5s;
+        }
+
+        &:nth-child(3) {
+          background: color(dark-grey);
+          animation-delay: -1s;
+        }
+
+        @keyframes Loader {
+          0% {
+            transform: rotate(0deg) translateY(20px);
+          }
+
+          30% {
+            transform: rotate(180deg) translateY(10px);
+          }
+
+          50% {
+            transform: rotate(300deg) translateY(25px);
+          }
+
+          100% {
+            transform: rotate(360deg) translateY(20px);
+          }
+        }
+      }
+    }
+
+    .Logo {
+      color: color(orange);
+    }
+
+    .Toggle {
+      background-color: mix(color(black), color(dark-grey), 10%);
+      background-image: linear-gradient(to right, rgba(black, 0.2) 5%, rgba(black, 0.1) 30%, rgba(black, 0.2) 90%);
+      box-shadow: 0 0 0 2px color(black), 0 1px 3px 3px rgba(white, 0.05), 0 2px 8px 1px rgba(white, 0.05);
+
+      //border-radius: 1px;
+
+      .ToggleSwitch {
+        color: color(dark-grey);
+        background-image: linear-gradient(to bottom, rgba(black, 0.1) 1px, rgba(white, 0.1) 1px);
+        background-size: 100% 2px;
+        box-shadow: 0 0 1px 1px color(black);
+        will-change: transform;
+      }
+
+      &._horizontal {
+        .ToggleSwitch {
+          background-image: linear-gradient(to right, rgba(black, 0.1) 1px, rgba(white, 0.1) 1px);
+          background-size: 2px 100%;
+        }
+
+        .stem {
+          border-radius: 0 10px 10px 0;
+          background-image: linear-gradient(to left, rgba(white, 0) 10%, rgba(white, 0.5)), linear-gradient(to bottom, rgba(black, 0.5) 10%, rgba(white, 0.1) 20%, rgba(black, 0.05), 70%, rgba(black, 0.6));
+        }
+
+        .cap {
+          background-image: linear-gradient(to right, rgba(black, 0.1) 1px, rgba(white, 0.1) 1px);
+          background-size: 2px 100%;
+        }
+      }
+
+      .stem {
+        background: mix(black, white, 30%);
+        visibility: visible;
+        border-radius: 0 0 10px 10px;
+        background-image: linear-gradient(to top, rgba(white, 0) 10%, rgba(white, 0.5)), linear-gradient(to right, rgba(black, 0.5) 10%, rgba(white, 0.1) 20%, rgba(black, 0.05), 70%, rgba(black, 0.6));
+      }
+
+      &._stem {
+        border-radius: 10px;
+
+        .ToggleSwitch {
+          visibility: hidden;
+        }
+
+        &:before {
+          pointer-events: none;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          content: '';
+          height: 10px;
+          width: 10px;
+          background: mix(black, white, 30%);
+          transition: transform 0.2s;
+          visibility: visible;
+          border-radius: 10px;
+          background-image: linear-gradient(to right, rgba(black, 0.5) 10%, rgba(white, 0.1) 20%, rgba(black, 0.05), 70%, rgba(black, 0.6));
+        }
+
+        &._horizontal {
+          &:before {
+            background-image: linear-gradient(to bottom, rgba(black, 0.5) 10%, rgba(white, 0.1) 20%, rgba(black, 0.05), 70%, rgba(black, 0.6));
+          }
+        }
+      }
+
+      .cap {
+        background-image: linear-gradient(to bottom, rgba(black, 0.1) 1px, rgba(white, 0.1) 1px);
+        background-size: 100% 2px;
+        border-radius: 100%;
+        background-color: white;
+        visibility: visible;
+        box-shadow: 0 0 1px 1px rgba(black, 0.2) inset;
+      }
+    }
+
+    .tap-area {
+      background: color(grey);
+      color: color(black);
+      margin-bottom: 6px;
+      margin-left: 6px;
+      border-radius: 2px 2px 2px 0;
+    }
+
+    .main-control {
+      background: color(grey);
+      color: color(black);
+      margin-bottom: 6px;
+      margin-right: 54px;
+      border-radius: 2px 2px 0 2px;
+    }
+
+    .tempoBoxBorder {
+      pointer-events: none;
+      position: absolute;
+      top: 30px;
+      left: 10px;
+      height: 2px;
+      width: 110px;
+      background: color(grey);
+
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        background: inherit;
+      }
+
+      &:before {
+        bottom: 0;
+        right: 0;
+        width: 2px;
+        height: 40px;
+      }
+
+      &:after {
+        bottom: 38px;
+        left: 100%;
+        height: 2px;
+        width: 110px;
+      }
+    }
+
+    .Screws {
+      pointer-events: none;
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      .Screw {
+        visibility: visible;
+        position: absolute;
+        top: 12px;
+        left: 10px;
+        height: 12px;
+        width: 12px;
+        border-radius: 100%;
+        box-shadow: 0 1px 0 1px #121101, 0 2px 1px 1px rgba(black, 0.5), -3px 5px 0 -1px rgba(black, 0.4) inset, 2px 4px 0 -1px rgba(white, 0.2) inset, -2px 0 0 0 rgba(black, 0.5) inset;
+        background-color: color(dark-grey);
+        background-image: radial-gradient(rgba(white, 0.2), rgba(black, 0.3)), linear-gradient(to top, rgba(black, 0.4), rgba(white, 0.2), rgba(black, 0.1));
+
+        &:before,
+        &:after {
+          content: '';
+          height: 2px;
+          width: 6px;
+          margin: -1px -3px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          background: black;
+          box-shadow: 1px 1px 1px rgba(white, 0.2) inset;
+          border-radius: 100%;
+        }
+
+        &:after {
+          transform: rotate(90deg);
+        }
+
+        &:nth-child(1) {
+          transform: translate(0, -5px);
+        }
+
+        &:nth-child(2) {
+          transform: translate(200px, 0);
+        }
+
+        &:nth-child(3) {
+          transform: translate(900px, 0);
+        }
+
+        &:nth-child(4) {
+          transform: translate(1010px, -5px);
+        }
+
+        &:nth-child(5) {
+          transform: translate(70px, 5px);
+        }
+
+        &:nth-child(6) {
+          transform: translate(70px, 40px);
+        }
+
+        &:nth-child(7) {
+          transform: translate(0, 200px);
+        }
+
+        &:nth-child(8) {
+          transform: translate(1010px, 200px);
+        }
+
+        &:nth-child(9) {
+          transform: translate(1010px, 340px);
+        }
+
+        &:nth-child(10) {
+          transform: translate(850px, 340px);
+        }
+
+        &:nth-child(11) {
+          transform: translate(500px, 340px);
+        }
+
+        &:nth-child(12) {
+          transform: translate(200px, 286px);
+        }
+
+        &:nth-child(13) {
+          top: auto;
+          bottom: 15px;
+          transform: translate(100px, 0);
+        }
+
+        &:nth-child(14) {
+          top: auto;
+          bottom: 15px;
+          transform: translate(900px, 0);
+        }
+
+        &:nth-child(15) {
+          transform: translate(500px, 0);
+        }
+
+        &:nth-child(16) {
+          top: auto;
+          bottom: 15px;
+          transform: translate(500px, 0);
+        }
+      }
+    }
+
+    .Arrow {
+      position: relative;
+      padding: 2px 8px;
+      background: color(background);
+      color: color(grey);
+      font-family: sans-serif;
+      text-transform: uppercase;
+      line-height: 1;
+      font-size: 8px;
+      white-space: nowrap;
+      margin-top: 20px;
+      z-index: 2;
+
+      &.grey {
+        background: color(grey);
+        color: color(background);
+        margin: 0 4px 0 10px;
+
+        &.right {
+          &:after {
+            border-left-color: color(grey);
+          }
+        }
+
+        &.left {
+          &:after {
+            border-right-color: color(grey);
+          }
+        }
+      }
+
+      &.basic-rhythm {
+        left: 80px;
+      }
+
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &:before {
+        height: 4px;
+        width: 6px;
+        background: inherit;
+      }
+
+      &:after {
+        border: 6px solid transparent;
+      }
+
+      &.right {
+        &:before {
+          left: 100%;
+        }
+
+        &:after {
+          border-left-color: color(background);
+          border-right: 0;
+          left: calc(100% + 5px);
+        }
+      }
+
+      &.left {
+        &:before {
+          right: 100%;
+        }
+
+        &:after {
+          border-right-color: color(background);
+          border-left: 0;
+          right: calc(100% + 5px);
+        }
+      }
+    }
+
+    .onOfflabels {
+      position: absolute;
+      top: 10px;
+      left: 75px;
+      width: 60px;
+      height: 40px;
+      font-size: 6px;
+      line-height: 1;
+      font-family: sans-serif;
+      text-transform: uppercase;
+
+      div {
+        position: absolute;
+        width: 20px;
+
+        &:nth-child(1) {
+          top: 0;
+          left: 0;
+        }
+
+        &:nth-child(2) {
+          top: 50%;
+          right: 0;
+
+          &:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 100%;
+            height: 1px;
+            width: 10px;
+            background: currentColor;
+          }
+
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 100%;
+            height: 3px;
+            width: 6px;
+            margin-right: 2px;
+            background: currentColor;
+            border-radius: 1px 1px 0 0;
+          }
+        }
+
+        &:nth-child(3) {
+          bottom: 0;
+          right: 0;
+
+          &:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 100%;
+            height: 1px;
+            width: 10px;
+            background: currentColor;
+          }
+
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 100%;
+            height: 5px;
+            width: 6px;
+            margin-right: 2px;
+            background: currentColor;
+            border-radius: 1px 1px 0 0;
+          }
+        }
+      }
+    }
+
+    .FAKECLEAR {
+      position: absolute;
+
+      //visibility: hidden;
+      height: 30px;
+      width: 80px;
+      top: 189px;
+      left: 60px;
+      font-size: 6px;
+      line-height: 1;
+      font-family: sans-serif;
+      text-transform: uppercase;
+
+      > div {
+        position: absolute;
+        text-align: center;
+        padding: 2px 4px;
+        max-width: 30px;
+
+        &:nth-child(1) {
+          bottom: 50%;
+          left: 0;
+          color: color(white);
+        }
+
+        &:nth-child(2) {
+          top: 50%;
+          left: 0;
+          color: color(white);
+        }
+
+        &:nth-child(3) {
+          bottom: 50%;
+          right: 0;
+          color: color(orange);
+        }
+      }
+
+      .FAKECLEARBUTTON {
+        top: 50%;
+        left: 50%;
+        height: 12px;
+        width: 12px;
+        padding: 0;
+        border-radius: 100%;
+        background: color(red);
+        box-shadow: 0 3px 0 1px mix(black, color(red), 40%), 0 5px 0 2px color(grey);
+        z-index: 2;
+        transform: translate(-50%, -50%);
+
+        &:before {
+          content: '';
+          height: 2em;
+          width: 1px;
+          position: absolute;
+          bottom: 100%;
+          left: 50%;
+          background: color(white);
+        }
+
+        &:after {
+          content: '';
+          width: 7.2em;
+          height: 1px;
+          position: absolute;
+          right: 100%;
+          top: 50%;
+          background: color(white);
+        }
+      }
+    }
+
+    .LightLabel {
+      font-size: 6px;
+      line-height: 1;
+      font-family: sans-serif;
+      color: color(grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+}
+
+$colors: (red: #AE63E4, orange: #0ebeff, yellow: #47CF73, white: #fff, grey: #ccc, dark-grey: #1E1E1E, black: #111, background: #28282B);
+
+@function color($name) {
+  @return map-get($colors, $name);
+}
+
+@include style(codepen);
+
+$colors: (red: #FD4D20, orange: #FE7F00, yellow: #FAEF1B, white: #F4F4D1, grey: #979D9D, dark-grey: #1d1e1c, black: #121611, background: #34302F);
+
+@include style(roland);
+
+body {
+  margin: 0;
+  padding: 50px 40px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
