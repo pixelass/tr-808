@@ -12,7 +12,7 @@ const notify = require("gulp-notify");
 
 const paths = {
     src:'./app',
-    js:'./app/*.js',
+    js:'./app/**/*.js',
     html:'./app/*.jade',
     css:'./app/*.scss',
     dest:'./dist'
@@ -82,5 +82,5 @@ gulp.task('watch', function(){
     gulp.watch(paths.css,['css']);
     gulp.watch(paths.html,['html']);
 
-    return buildScript('tr808.js', true);
+    return buildScript('index.js', true);
 });
