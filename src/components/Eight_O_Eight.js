@@ -335,7 +335,6 @@ export default class Eight_O_Eight extends React.Component {
             this.setState({
                 buffersLoaded: true
             });
-            this.loop.start();
         });
 
     }
