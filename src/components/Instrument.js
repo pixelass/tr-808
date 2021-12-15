@@ -35,7 +35,7 @@ export default class Instrument extends React.Component {
                 }
                 return group;
             });
-            return <span key={index}> word</span>;
+            return <span key={index}>{word}</span>;
         });
         // show potis for channel
         this.potis = this.props.potis.map((item, index) => {
